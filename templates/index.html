@@ -18,10 +18,26 @@
     {% endfor %}
   </div>
 
-  
 
+<!-- <p><a href="/another">Go to the other page</a></p> -->
 
-<p><a href="/another">Go to the other page</a></p>
+<form method = "POST" action = "/showCrashes">
+  <p>Display crashes</p>
+  Enter the number of crashes you want to display<input type = "text" name = "numOfCrashes">
+  <input type = "submit" value = "show">
+</form>
+
+<form method = "POST" action = "/vvc">
+  <p>Display vehicles and Vehicles associated with given crash ID</p>
+  Enter the crashID<input type = "text" name = "crashId">
+  <input type = "submit" value = "show">
+</form>
+
+<form method = "POST" action = "/BodyInjury">
+  <p>Display the body injury associated with given victimId</p>
+  Enter the victimId <input type = "text" name = "victimId">
+  <input type = "submit" value = "show">
+</form>
 
 <p>Enter data</p>
 
@@ -66,24 +82,6 @@
     <tr><td>number of motorist killed</td><td><input type="text" name="nmotorist_killed"></td></tr>
     </table>
     <input type="submit" value="Add">
-</form>
-
-<form method = "POST" action = "/showCrashes">
-  <p>Display crashes</p>
-  Enter the number of crashes you want to display<input type = "text" name = "numOfCrashes">
-  <input type = "submit" value = "show">
-</form>
-
-<form method = "POST" action = "/vvc">
-  <p>Display vehicles and Vehicles associated with given crash ID</p>
-  Enter the crashID<input type = "text" name = "crashId">
-  <input type = "submit" value = "show">
-</form>
-
-<form method = "POST" action = "/BodyInjury">
-  <p>Display the body injury associated with given victimId</p>
-  Enter the victimId <input type = "text" name = "victimId">
-  <input type = "submit" value = "show">
 </form>
 
 </body>
