@@ -207,6 +207,27 @@ def add():
 
   return redirect('/')
 
+@app.route("/showCrashes", methods = ["POST"])
+def showCrashes():
+  numOfCrashes = request.form['numOfCrashes']
+  if numOfCrashes.isdigit():
+    numOfCrashes = int(numOfCrashes)
+  elif numOfCrashes == "" or numOfCrashes == "ALL":
+    numOfCrashes = 1e9
+  else:
+    return render_template("index.html", **{"data": ["Invalid Input!!"]})
+  cmd_show = """
+  select *
+  from crashes
+  limit (:numOfCrashes)
+  """
+  cursor = g.conn.execute(text(cmd_show), numOfCrashes = numOfCrashes)
+  arr = []
+  for result in cursor:
+    arr.append(result)
+  context = dict(data = arr)
+  return render_template("index.html", **context)
+
 
 
 # @app.route('/login')
