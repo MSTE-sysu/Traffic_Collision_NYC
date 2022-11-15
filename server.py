@@ -210,7 +210,28 @@ def showCrashes():
   context = dict(data = arr)
   return render_template("index.html", **context)
 
+@app.route("/vvc", methods = ["POST"])
+def vvc():
+    crashIds = request.form['crashId']
+    crashIds = crashIds.split(',')
 
+    cmd_vvc = """
+    select c.collision_id, v.victim_id, vh.vehicle_id, vh.vehicle_type
+    from crashes as c, involve as i, sit as s, victims as v, vehicles as vh
+    where c.collision_id = i.collision_id and v.victim_id = i.victim_id and v.victim_id = s.victim_id
+    and s.vehicle_id = vh.vehicle_id and c.collision_id = (:crashId)
+    """
+
+    arr = []
+    for i in range(len(crashIds)):
+        cursor = g.conn.execute(text(cmd_vvc), crashId = int(crashIds[i]))
+        for result in cursor:
+            arr.append(result)
+    
+    context = dict(data = arr)
+    return render_template("index.html", **context)
+
+        
 
 # @app.route('/login')
 # def login():
