@@ -105,11 +105,6 @@ def index():
 #   return render_template("index.html")
 
 
-@app.route('/show_data', methods=['GET'])
-def show_data():
-
-    return redirect('/')
-
 
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
