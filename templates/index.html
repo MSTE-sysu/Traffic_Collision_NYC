@@ -12,7 +12,7 @@
   <!-- <div>{{data}}</div> -->
 
   <div>
-    <p>crashes</p>
+    <p>Query Result</p>
     {% for n in data %}
     <div>{{n}}</div>
     {% endfor %}
@@ -66,6 +66,12 @@
     <tr><td>number of motorist killed</td><td><input type="text" name="nmotorist_killed"></td></tr>
     </table>
     <input type="submit" value="Add">
+</form>
+
+<form method = "POST" action = "/showCrashes">
+  <p>Display crashes</p>
+  Enter the number of crashes you want to display<input type = "text" name = "numOfCrashes">
+  <input type = "submit" value = "show">
 </form>
 
 
