@@ -231,7 +231,22 @@ def vvc():
     context = dict(data = arr)
     return render_template("index.html", **context)
 
-        
+@app.route("/BodyInjury", methods = ["POST"])
+def BodyInjury():
+    victimId = request.form['victimId']
+    cmd_BodyInjury = """
+    select victim_id, bodily_injury
+    from victims
+    where victim_id = (:victimId)
+    """
+    
+    arr=[]
+    cursor = g.conn.execute(text(cmd_BodyInjury), victimId = int(victimId))
+    for result in cursor:
+        arr.append(result)
+    context = dict(data = arr)
+    return render_template("index.html", **context)
+
 
 # @app.route('/login')
 # def login():
