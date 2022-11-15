@@ -39,6 +39,22 @@
   <input type = "submit" value = "show">
 </form>
 
+<form method = "POST" action = "/boroughCrashes">
+  <p>Display crashes and date in given borough</p>
+  <!-- Select the borough <input type = "text" name = "boroughforcrashes"> -->
+  Select the borough<select name="boroughforcrashes">
+    <option value ="0">[Select borough]</option>
+    <option value ="QUEENS">QUEENS</option>
+    <option value ="BRONX">BRONX</option>
+    <option value ="STATEN ISLAND">STATEN ISLAND</option>
+  </select>
+  <input type = "submit" value = "show">
+</form>
+
+
+
+
+
 <p>Enter data</p>
 
 <form method="POST" action="/add">

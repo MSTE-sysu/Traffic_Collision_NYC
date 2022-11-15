@@ -231,6 +231,25 @@ def BodyInjury():
     return render_template("index.html", **context)
 
 
+@app.route("/boroughCrashes", methods = ["POST"])
+def boroughCrashes():
+    boroughCrashes = request.form['boroughforcrashes']
+    print(boroughCrashes)
+    print(type(boroughCrashes))
+    cmd_boroughCrashes = """
+    select l.borough, c.collision_id, c.crash_date
+    from crashes as c, occur as o, locations as l
+    where c.collision_id = o.collision_id and o.location_id = l.location_id and l.borough = (:boroughCrashes)
+    """
+    arr=[]
+    cursor = g.conn.execute(text(cmd_boroughCrashes), boroughCrashes = boroughCrashes)
+    for result in cursor:
+        arr.append(result)
+    context = dict(data = arr)
+    return render_template("index.html", **context)
+
+
+
 # @app.route('/login')
 # def login():
 #     abort(401)
