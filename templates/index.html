@@ -8,20 +8,67 @@
 
 
 <body>
-  <h1>Some famous Computer Scientists</h1>
-  <div>{{data}}</div>
+  <h1>Motor Vehicle Collisions in NYC</h1>
+  <!-- <div>{{data}}</div> -->
 
   <div>
+    <p>crashes</p>
     {% for n in data %}
     <div>{{n}}</div>
     {% endfor %}
   </div>
 
+  
+
+
 <p><a href="/another">Go to the other page</a></p>
 
+<p>Enter data</p>
+
 <form method="POST" action="/add">
-<p>Name of new computer scientist: <input type="text" name="name"> <input type="submit" value="Add"></p>
+  <table border="0" cellspacing="" cellpadding="">
+    <tr><td>Crashes:</td><td></td></tr>
+    <tr><td>collision id</td><td><input type="text" name="collision_id"></td></tr>
+    <tr><td>date</td><td> <input type="text" name="crash_date"></td></tr>
+    <tr><td>time</td><td> <input type="text" name="crash_time"></td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>Victims:</td><td></td></tr>
+    <tr><td>victim id</td><td><input type="text" name="victim_id"></td></tr>
+    <tr><td>position in vehicle</td><td><input type="text" name="position_in_vehicle"></td></tr>
+    <tr><td>bodily injury</td><td><input type="text" name="bodily_injury"></td></tr>   
+    <tr><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>Vehicles:</td><td></td></tr>
+    <tr><td>vehicle id</td><td><input type="text" name="vehicle_id"></td></tr>
+    <tr><td>type</td><td><input type="text" name="vehicle_type"></td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>Locations: </td><td></td></tr>
+    <tr><td>location id</td><td><input type="text" name="location_id"></td></tr>
+    <tr><td>latitude</td><td><input type="text" name="latitude"></td></tr>
+    <tr><td>longitude</td><td><input type="text" name="longitude"></td></tr>
+    <tr><td>borough</td><td><input type="text" name="borough"></td></tr>
+    <tr><td>zip</td><td><input type="text" name="zip_code"></td></tr>
+    <tr><td>on street name</td><td><input type="text" name="on_street_name"></td></tr>
+    <tr><td>off street name</td><td><input type="text" name="off_street_name"></td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>Contributing Factors:</td><td></td></tr>
+    <tr><td>factor id</td><td><input type="text" name="factor_id"> </td></tr>
+    <tr><td>description</td><td><input type="text" name="description"> </td></tr>
+    <tr><td>&nbsp</td><td>&nbsp</td></tr>
+    <tr><td>Consequences:</td><td></td></tr>
+    <tr><td>consequence id</td><td><input type="text" name="consequence_id"></td></tr>
+    <tr><td>number of persons injured</td><td><input type="text" name="nperson_injured"></td></tr>
+    <tr><td>number of persons killed</td><td><input type="text" name="nperson_killed"></td></tr>
+    <tr><td>number of pedestrians injured</td><td><input type="text" name="npedestrian_injured"></td></tr>
+    <tr><td>number of pedestrians killed</td><td><input type="text" name="npedestrian_killed"></td></tr>
+    <tr><td>number of cyclist injured</td><td><input type="text" name="ncyclist_injured"> </td></tr>
+    <tr><td>number of cyclist killed</td><td><input type="text" name="ncyclist_killed"> </td></tr>
+    <tr><td>number of motorist injured</td><td><input type="text" name="nmotorist_injured"> </td></tr>
+    <tr><td>number of motorist killed</td><td><input type="text" name="nmotorist_killed"></td></tr>
+    </table>
+    <input type="submit" value="Add">
 </form>
+
+
 
 </body>
 

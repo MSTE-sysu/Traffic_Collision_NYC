@@ -50,13 +50,13 @@ DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/proj1part2
 engine = create_engine(DATABASEURI)
 
 
-# # Here we create a test table and insert some values in it
-# engine.execute("""DROP TABLE IF EXISTS test;""")
-# engine.execute("""CREATE TABLE IF NOT EXISTS test (
-#   id serial,
-#   name text
-# );""")
-# engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
+# Here we create a test table and insert some values in it
+engine.execute("""DROP TABLE IF EXISTS test;""")
+engine.execute("""CREATE TABLE IF NOT EXISTS test (
+  id serial,
+  name text
+);""")
+engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
 
 
 
@@ -120,40 +120,13 @@ def index():
   #
   # example of a database query
   #
-  cursor = g.conn.execute("SELECT name FROM test")
-  names = []
+  cursor = g.conn.execute("SELECT * FROM crashes")
+  arr = []
   for result in cursor:
-    names.append(result['name'])  # can also be accessed using result[0]
+    arr.append(result)  # can also be accessed using result[0]
   cursor.close()
-
-  #
-  # Flask uses Jinja templates, which is an extension to HTML where you can
-  # pass data to a template and dynamically generate HTML based on the data
-  # (you can think of it as simple PHP)
-  # documentation: https://realpython.com/blog/python/primer-on-jinja-templating/
-  #
-  # You can see an example template in templates/index.html
-  #
-  # context are the variables that are passed to the template.
-  # for example, "data" key in the context variable defined below will be 
-  # accessible as a variable in index.html:
-  #
-  #     # will print: [u'grace hopper', u'alan turing', u'ada lovelace']
-  #     <div>{{data}}</div>
-  #     
-  #     # creates a <div> tag for each element in data
-  #     # will print: 
-  #     #
-  #     #   <div>grace hopper</div>
-  #     #   <div>alan turing</div>
-  #     #   <div>ada lovelace</div>
-  #     #
-  #     {% for n in data %}
-  #     <div>{{n}}</div>
-  #     {% endfor %}
-  #
-  context = dict(data = names)
-
+  context = dict(data = arr)
+  
 
   #
   # render_template looks in the templates/ folder for files.
@@ -161,7 +134,7 @@ def index():
   #
   return render_template("index.html", **context)
 
-#
+
 # This is an example of a different path.  You can see it at
 # 
 #     localhost:8111/another
@@ -173,21 +146,73 @@ def index():
 def another():
   return render_template("anotherfile.html")
 
+# @app.route('/show_data', methods=['GET'])
+# def show_data():
+
+
+#   return redirect('/')
+
 
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  name = request.form['name']
-  print (name)
-  cmd = 'INSERT INTO test(name) VALUES (:name1)';
-  g.conn.execute(text(cmd), name1 = name);
+  #crashes
+  collision_id = request.form['collision_id']
+  crash_date = request.form['crash_date']
+  crash_time = request.form['crash_time']
+  # victims
+  victim_id = request.form['victim_id']
+  position_in_vehicle = request.form['position_in_vehicle']
+  bodily_injury = request.form['bodily_injury']
+  # vehicles
+  vehicle_id = request.form['vehicle_id']
+  vehicle_type = request.form['vehicle_type']
+  # locations
+  location_id = request.form['location_id']
+  latitude = request.form['latitude']  
+  longitude = request.form['longitude']  
+  borough = request.form['borough']  
+  zip_code = request.form['zip_code']  
+  on_street_name = request.form['on_street_name']  
+  off_street_name = request.form['off_street_name']  
+  # contributingfactors
+  factor_id = request.form['factor_id']
+  description = request.form['description']
+  # consequences
+  consequence_id = request.form['consequence_id']
+  nperson_injured = request.form['nperson_injured']
+  nperson_killed = request.form['nperson_killed']
+  npedestrian_injured = request.form['npedestrian_injured']
+  npedestrian_killed = request.form['npedestrian_killed']
+  ncyclist_injured = request.form['ncyclist_injured']
+  ncyclist_killed = request.form['ncyclist_killed']
+  nmotorist_injured = request.form['nmotorist_injured']
+  nmotorist_killed = request.form['nmotorist_killed']
+
+  # print(collision_id, victim_id, vehicle_id,location_id,factor_id,consequence_id)
+
+  cmd_c = 'INSERT INTO crashes VALUES ((:collision_id),(:crash_date),(:crash_time))'
+  cmd_vi = 'INSERT INTO victims VALUES ((:victim_id),(:position_in_vehicle),(:bodily_injury))'
+  cmd_ve = 'INSERT INTO vehicles VALUES ((:vehicle_id),(:vehicle_type))'
+  cmd_l = 'INSERT INTO locations VALUES ((:location_id),(:latitude),(:longitude),(:borough),(:zip_code),(:on_street_name),(:off_street_name))'
+  cmd_f = 'INSERT INTO contributingfactors VALUES ((:factor_id),(:description))'
+  cmd_con = 'INSERT INTO consequences VALUES ((:consequence_id),(:nperson_injured),(:nperson_killed),(:npedestrian_injured),(:npedestrian_killed),(:ncyclist_injured),(:ncyclist_killed),(:nmotorist_injured),(:nmotorist_killed))'
+
+  g.conn.execute(text(cmd_c), collision_id = int(collision_id), crash_date = crash_date, crash_time= crash_time)
+  g.conn.execute(text(cmd_vi), victim_id = int(victim_id),position_in_vehicle=position_in_vehicle,bodily_injury=bodily_injury)
+  g.conn.execute(text(cmd_ve), vehicle_id = int(vehicle_id),vehicle_type=vehicle_type)
+  g.conn.execute(text(cmd_l), location_id = int(location_id),latitude=latitude,longitude =longitude,borough=borough,zip_code=int(zip_code),on_street_name=on_street_name,off_street_name=off_street_name)
+  g.conn.execute(text(cmd_f), factor_id = int(factor_id),description=description)
+  g.conn.execute(text(cmd_con), consequence_id = int(consequence_id),nperson_injured=int(nperson_injured),nperson_killed=int(nperson_killed),npedestrian_injured=int(npedestrian_injured),npedestrian_killed=int(npedestrian_killed),ncyclist_injured=int(ncyclist_injured),ncyclist_killed=int(ncyclist_killed),nmotorist_injured=int(nmotorist_injured),nmotorist_killed=int(nmotorist_killed))
+
   return redirect('/')
 
 
-@app.route('/login')
-def login():
-    abort(401)
-    this_is_never_executed()
+
+# @app.route('/login')
+# def login():
+#     abort(401)
+#     this_is_never_executed()
 
 
 if __name__ == "__main__":
