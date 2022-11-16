@@ -248,6 +248,36 @@ def boroughCrashes():
     context = dict(data = arr)
     return render_template("index.html", **context)
 
+@app.route("/rangeCrashes", methods = ["POST"])
+def rangeCrashes():
+    data = request.form['radiusLocation']
+    radius, latitude, longitude = data.split(",")
+    
+    cmd_rangeC = """
+    select 111.111 *
+    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((:latitude)))
+         * COS(RADIANS(l.Latitude))
+         * COS(RADIANS((:longitude) - l.Longitude))
+         + SIN(RADIANS((:latitude)))
+         * SIN(RADIANS(l.Latitude))))), l.latitude, l.longitude, l.borough, l.street_name, l.cross_name
+    from locations as l
+    where  111.111 *
+    DEGREES(ACOS(LEAST(1.0, COS(RADIANS((:latitude)))
+         * COS(RADIANS(l.Latitude))
+         * COS(RADIANS((:longitude) - l.Longitude))
+         + SIN(RADIANS((:latitude)))
+         * SIN(RADIANS(l.Latitude))))) <= (:radius)
+    """
+    
+    cursor = g.conn.execute(text(cmd_rangeC), radius = radius, latitude = latitude, longitude = longitude)
+    arr = []
+    for result in cursor:
+        arr.append(result)
+    context = dict(data = arr)
+    return render_template("index.html",**context)
+
+
+
 
 
 # @app.route('/login')
